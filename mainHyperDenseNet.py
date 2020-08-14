@@ -170,6 +170,7 @@ def runTraining(opts):
     print(' --- Getting image names.....')
     print(' - Training Set: -')
     if os.path.exists(moda_1):
+        print(moda_1)
         imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f))]
         imageNames_train.sort()
         print(' ------- Images found ------')
@@ -178,7 +179,7 @@ def runTraining(opts):
     else:
         raise Exception(' - {} does not exist'.format(moda_1))
 
-    print(imageNames_train)
+
     # moda_1_val = root_dir + 'Validation/' + opts.modality_dirs[0]
     # moda_2_val = root_dir + 'Validation/' + opts.modality_dirs[1]
     #

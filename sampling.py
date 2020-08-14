@@ -150,7 +150,7 @@ def load_data_trainG(paths, pathg, imageNames, numSamples, numModalities):
         imageData_2 = nib.load(paths[1] + '/' + imageNames[num] + '/mri/T1.nii.gz').get_data()
         if (numModalities==3):
             imageData_3 = nib.load(paths[2] + '/' + imageNames[num]).get_data()
-        imageData_g = nib.load(pathg + '/' + imageNames[num]).get_data()
+        imageData_g = nib.load(pathg + '/' + imageNames[num] + '/mri/aseg.nii.gz').get_data()
 
         num_classes = len(np.unique(imageData_g))
 

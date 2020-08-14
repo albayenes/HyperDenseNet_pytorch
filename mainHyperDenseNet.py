@@ -170,7 +170,7 @@ def runTraining(opts):
     print(' --- Getting image names.....')
     print(' - Training Set: -')
     if os.path.exists(moda_1):
-        imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f, 'mri', 'T1.nii.gz'))][0]
+        imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f, 'mri', 'T1.nii.gz'))][0:1]
         imageNames_train.sort()
         print(' ------- Images found ------')
         for i in range(len(imageNames_train)):

@@ -178,23 +178,24 @@ def runTraining(opts):
     else:
         raise Exception(' - {} does not exist'.format(moda_1))
 
-    moda_1_val = root_dir + 'Validation/' + opts.modality_dirs[0]
-    moda_2_val = root_dir + 'Validation/' + opts.modality_dirs[1]
+    print(imageNames_train)
+    # moda_1_val = root_dir + 'Validation/' + opts.modality_dirs[0]
+    # moda_2_val = root_dir + 'Validation/' + opts.modality_dirs[1]
+    #
+    # if (opts.numModal == 3):
+    #     moda_3_val = root_dir + 'Validation/' + opts.modality_dirs[2]
+    # moda_g_val = root_dir + 'Validation/GT'
 
-    if (opts.numModal == 3):
-        moda_3_val = root_dir + 'Validation/' + opts.modality_dirs[2]
-    moda_g_val = root_dir + 'Validation/GT'
-
-    print(' --------------------')
-    print(' - Validation Set: -')
-    if os.path.exists(moda_1):
-        imageNames_val = [f for f in os.listdir(moda_1_val) if isfile(join(moda_1_val, f))]
-        imageNames_val.sort()
-        print(' ------- Images found ------')
-        for i in range(len(imageNames_val)):
-            print(' - {}'.format(imageNames_val[i])) 
-    else:
-        raise Exception(' - {} does not exist'.format(moda_1_val))
+    # print(' --------------------')
+    # print(' - Validation Set: -')
+    # if os.path.exists(moda_1):
+    #     imageNames_val = [f for f in os.listdir(moda_1_val) if isfile(join(moda_1_val, f))]
+    #     imageNames_val.sort()
+    #     print(' ------- Images found ------')
+    #     for i in range(len(imageNames_val)):
+    #         print(' - {}'.format(imageNames_val[i]))
+    # else:
+    #     raise Exception(' - {} does not exist'.format(moda_1_val))
           
     print("~~~~~~~~~~~ Creating the model ~~~~~~~~~~")
     num_classes = opts.numClasses

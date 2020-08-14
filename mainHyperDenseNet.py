@@ -159,19 +159,18 @@ def runTraining(opts):
 
     if not (len(opts.modality_dirs)== opts.numModal): raise AssertionError
 
-    moda_1 = root_dir + 'Training/' + opts.modality_dirs[0]
-    moda_2 = root_dir + 'Training/' + opts.modality_dirs[1]
+    moda_1 = root_dir
+    moda_2 = root_dir
 
     if (opts.numModal == 3):
         moda_3 = root_dir + 'Training/' + opts.modality_dirs[2]
 
-    moda_g = root_dir + 'Training/GT'
+    moda_g = root_dir
 
     print(' --- Getting image names.....')
     print(' - Training Set: -')
     if os.path.exists(moda_1):
-        print(moda_1)
-        imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f))]
+        imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f, 'mri', 'T1.nii.gz'))]
         imageNames_train.sort()
         print(' ------- Images found ------')
         for i in range(len(imageNames_train)):

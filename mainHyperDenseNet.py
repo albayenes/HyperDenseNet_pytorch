@@ -21,6 +21,8 @@ from torch.autograd import Variable
 from progressBar import printProgressBar
 import nibabel as nib
 
+DEVICE = torch.device("cpu")
+
 # def evaluateSegmentation(gt,pred):
 #     pred = pred.astype(dtype='int')
 #     numClasses = np.unique(gt)
@@ -37,11 +39,9 @@ import nibabel as nib
 #     return dsc
 #
 def numpy_to_var(x):
-    torch_tensor = torch.from_numpy(x).type(torch.FloatTensor)
-    
-    if torch.cuda.is_available():
-        torch_tensor = torch_tensor.cuda()
-    return Variable(torch_tensor)
+    torch_tensor = torch.from_numpy(x).type(torch.FloatTensor).to(DEVICE)
+
+    return torch_tensor
     
 # def inference(network, moda_n, moda_g, imageNames, epoch, folder_save, number_modalities):
 #     '''root_dir = './Data/MRBrainS/DataNii/'
@@ -170,7 +170,7 @@ def runTraining(opts):
     print(' --- Getting image names.....')
     print(' - Training Set: -')
     if os.path.exists(moda_1):
-        imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f, 'mri', 'T1.nii.gz'))][0:1]
+        imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f, 'T1w', 'T1.nii.gz'))][0:1]
         imageNames_train.sort()
         print(' ------- Images found ------')
         for i in range(len(imageNames_train)):
@@ -196,10 +196,19 @@ def runTraining(opts):
     #         print(' - {}'.format(imageNames_val[i]))
     # else:
     #     raise Exception(' - {} does not exist'.format(moda_1_val))
-          
-    print("~~~~~~~~~~~ Creating the model ~~~~~~~~~~")
-    num_classes = opts.numClasses
-    
+
+    if (opts.numModal == 2):
+        imgPaths = [moda_1, moda_2]
+
+    if (opts.numModal == 3):
+        imgPaths = [moda_1, moda_2, moda_3]
+
+    x_train, y_train, img_shape, num_classes = load_data_trainG(imgPaths, moda_g, imageNames_train, samplesPerEpoch,
+                                                   opts.numModal)  # hardcoded to read the first file. Loop this to get all files. Karthik
+
+    # print("~~~~~~~~~~~ Creating the model ~~~~~~~~~~")
+    # num_classes = opts.numClasses
+    #
     # Define HyperDenseNet
     # To-Do. Get as input the config settings to create different networks
     if (opts.numModal == 2):
@@ -215,13 +224,13 @@ def runTraining(opts):
         print("--------model not restored--------")
         pass'''
 
-    softMax = nn.Softmax()
-    CE_loss = nn.CrossEntropyLoss()
+    softMax = nn.Softmax(dim=1)
+    CE_loss = nn.CrossEntropyLoss().to(DEVICE)
     
-    if torch.cuda.is_available():
-        hdNet.cuda()
-        softMax.cuda()
-        CE_loss.cuda()
+
+    hdNet.to(DEVICE)
+    softMax.to(DEVICE)
+    CE_loss.to(DEVICE)
 
     # To-DO: Check that optimizer is the same (and same values) as the Theano implementation
     optimizer = torch.optim.Adam(hdNet.parameters(), lr=lr, betas=(0.9, 0.999))
@@ -234,21 +243,13 @@ def runTraining(opts):
         
         lossEpoch = []
 
-        if (opts.numModal == 2):
-            imgPaths = [moda_1, moda_2]
-
-        if (opts.numModal == 3):
-            imgPaths = [moda_1, moda_2, moda_3]
-
-        x_train, y_train, img_shape = load_data_trainG(imgPaths, moda_g, imageNames_train, samplesPerEpoch, opts.numModal) # hardcoded to read the first file. Loop this to get all files. Karthik
 
         for b_i in range(numBatches):
             optimizer.zero_grad()
-            hdNet.zero_grad()
             
             MRIs         = numpy_to_var(x_train[b_i*batch_size:b_i*batch_size+batch_size,:,:,:,:])
 
-            Segmentation = numpy_to_var(y_train[b_i*batch_size:b_i*batch_size+batch_size,:,:,:])
+            Segmentation = numpy_to_var(y_train[b_i*batch_size:b_i*batch_size+batch_size,:,:,:]).long()
 
             segmentation_prediction = hdNet(MRIs)
             
@@ -259,7 +260,7 @@ def runTraining(opts):
             segmentation_prediction = segmentation_prediction.permute(0,2,3,4,1).contiguous()
             segmentation_prediction = segmentation_prediction.view(segmentation_prediction.numel() // num_classes, num_classes)
             
-            CE_loss_batch = CE_loss(segmentation_prediction, Segmentation.view(-1).type(torch.cuda.LongTensor))
+            CE_loss_batch = CE_loss(segmentation_prediction, Segmentation.view(-1))
             
             loss = CE_loss_batch
             loss.backward()
@@ -270,7 +271,8 @@ def runTraining(opts):
             printProgressBar(b_i + 1, numBatches,
                              prefix="[Training] Epoch: {} ".format(e_i),
                              length=15)
-              
+
+            print(loss)
             del MRIs
             del Segmentation
             del segmentation_prediction
@@ -283,12 +285,12 @@ def runTraining(opts):
 
         print(' Epoch: {}, loss: {}'.format(e_i,np.mean(lossEpoch)))
 
-        if (e_i%10)==0:
+        # if (e_i%10)==0:
 
-            if (opts.numModal == 2):
-                moda_n = [moda_1_val, moda_2_val]
-            if (opts.numModal == 3):
-                moda_n = [moda_1_val, moda_2_val, moda_3_val]
+            # if (opts.numModal == 2):
+            #     moda_n = [moda_1_val, moda_2_val]
+            # if (opts.numModal == 3):
+            #     moda_n = [moda_1_val, moda_2_val, moda_3_val]
 
             # dsc = inference(hdNet,moda_n, moda_g_val, imageNames_val,e_i, opts.save_dir,opts.numModal)
             #
@@ -322,9 +324,9 @@ if __name__ == '__main__':
     parser.add_argument('--modelName', type=str, default='HyperDenseNet_2Mod', help='name of the model')
     parser.add_argument('--numModal', type=int, default=2, help='Number of image modalities')
     parser.add_argument('--numClasses', type=int, default=4, help='Number of classes (Including background)')
-    parser.add_argument('--numSamplesEpoch', type=int, default=1000, help='Number of samples per epoch')
+    parser.add_argument('--numSamplesEpoch', type=int, default=10, help='Number of samples per epoch')
     parser.add_argument('--numEpochs', type=int, default=500, help='Number of epochs')
-    parser.add_argument('--batchSize', type=int, default=10, help='Batch size')
+    parser.add_argument('--batchSize', type=int, default=1, help='Batch size')
     parser.add_argument('--l_rate', type=float, default=0.0002, help='Learning rate')
 
     opts = parser.parse_args()

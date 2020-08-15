@@ -21,7 +21,7 @@ from torch.autograd import Variable
 from progressBar import printProgressBar
 import nibabel as nib
 
-DEVICE = torch.device("cpu")
+DEVICE = torch.device("cuda")
 
 # def evaluateSegmentation(gt,pred):
 #     pred = pred.astype(dtype='int')

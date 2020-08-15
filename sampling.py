@@ -145,22 +145,23 @@ def load_data_trainG(paths, pathg, imageNames, numSamples, numModalities):
     X_train = []
     Y_train = []
 
+    image_size = 30
     for num in range(len(imageNames)):
         imageData_1 = nib.load(paths[0] + '/' + imageNames[num] + '/mri/T1.nii.gz').get_data()
-        imageData_1 = imageData_1[imageData_1.shape[0] // 2 - 50:imageData_1.shape[0] // 2 + 50,
-                      imageData_1.shape[1] // 2 - 50:imageData_1.shape[1] // 2 + 50,
-                      imageData_1.shape[2] // 2 - 50:imageData_1.shape[2] // 2 + 50]
+        imageData_1 = imageData_1[imageData_1.shape[0] // 2 - image_size:imageData_1.shape[0] // 2 + image_size,
+                      imageData_1.shape[1] // 2 - image_size:imageData_1.shape[1] // 2 + image_size,
+                      imageData_1.shape[2] // 2 - image_size:imageData_1.shape[2] // 2 + image_size]
         imageData_2 = nib.load(paths[1] + '/' + imageNames[num] + '/mri/T1.nii.gz').get_data()
-        imageData_2 = imageData_2[imageData_2.shape[0] // 2 - 50:imageData_2.shape[0] // 2 + 50,
-                      imageData_2.shape[1]  // 2 - 50:imageData_2.shape[1]  // 2 + 50,
-                      imageData_2.shape[2]  // 2- 50:imageData_2.shape[2] // 2 + 50]
+        imageData_2 = imageData_2[imageData_2.shape[0] // 2 - image_size:imageData_2.shape[0] // 2 + image_size,
+                      imageData_2.shape[1]  // 2 - image_size:imageData_2.shape[1]  // 2 + image_size,
+                      imageData_2.shape[2]  // 2- image_size:imageData_2.shape[2] // 2 + image_size]
         if (numModalities==3):
             imageData_3 = nib.load(paths[2] + '/' + imageNames[num]).get_data()
         imageData_g = nib.load(pathg + '/' + imageNames[num] + '/mri/aseg.nii.gz').get_data()
 
-        imageData_g = imageData_g[imageData_g.shape[0]  // 2 - 50:imageData_g.shape[0]  // 2 + 50,
-                      imageData_g.shape[1] // 2 - 50:imageData_g.shape[1] // 2 + 50,
-                      imageData_g.shape[2] // 2 - 50:imageData_g.shape[2] // 2 + 50]
+        imageData_g = imageData_g[imageData_g.shape[0]  // 2 - image_size:imageData_g.shape[0]  // 2 + image_size,
+                      imageData_g.shape[1] // 2 - image_size:imageData_g.shape[1] // 2 + image_size,
+                      imageData_g.shape[2] // 2 - image_size:imageData_g.shape[2] // 2 + image_size]
 
 
         num_classes = len(np.unique(imageData_g))

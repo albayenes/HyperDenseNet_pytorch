@@ -145,7 +145,7 @@ def load_data_trainG(paths, pathg, imageNames, numSamples, numModalities):
     X_train = []
     Y_train = []
 
-    image_size = 30
+    image_size = 20
     for num in range(len(imageNames)):
         imageData_1 = nib.load(paths[0] + '/' + imageNames[num] + '/mri/T1.nii.gz').get_data()
         imageData_1 = imageData_1[imageData_1.shape[0] // 2 - image_size:imageData_1.shape[0] // 2 + image_size,

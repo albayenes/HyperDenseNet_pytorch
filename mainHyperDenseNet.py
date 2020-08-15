@@ -324,9 +324,9 @@ if __name__ == '__main__':
     parser.add_argument('--modelName', type=str, default='HyperDenseNet_2Mod', help='name of the model')
     parser.add_argument('--numModal', type=int, default=2, help='Number of image modalities')
     parser.add_argument('--numClasses', type=int, default=4, help='Number of classes (Including background)')
-    parser.add_argument('--numSamplesEpoch', type=int, default=10, help='Number of samples per epoch')
+    parser.add_argument('--numSamplesEpoch', type=int, default=1000, help='Number of samples per epoch')
     parser.add_argument('--numEpochs', type=int, default=500, help='Number of epochs')
-    parser.add_argument('--batchSize', type=int, default=1, help='Batch size')
+    parser.add_argument('--batchSize', type=int, default=100, help='Batch size')
     parser.add_argument('--l_rate', type=float, default=0.0002, help='Learning rate')
 
     opts = parser.parse_args()

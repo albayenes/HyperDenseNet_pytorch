@@ -74,8 +74,8 @@ class AbideDataset(Dataset):
                                        y:y + patch_shape[1],
                                        z:z + patch_shape[2]])
 
-        patches_modal_1 = np.concatenate(patchesList_modal_1, axis=0).reshape((len(patchesList_modal_1), 1) + patch_shape)
-        patches_modal_2 = np.concatenate(patchesList_modal_1, axis=0).reshape((len(patchesList_modal_1), 1) + patch_shape)
-        patches_modal_g = np.concatenate(patchesList_modal_g, axis=0).reshape((len(patchesList_modal_1), 1) + patch_shape)
+        patches_modal_1 = np.concatenate(patchesList_modal_1, axis=0).reshape((len(patchesList_modal_1), 1) + patch_shape * 2 + 1)
+        patches_modal_2 = np.concatenate(patchesList_modal_1, axis=0).reshape((len(patchesList_modal_1), 1) + patch_shape * 2 + 1)
+        patches_modal_g = np.concatenate(patchesList_modal_g, axis=0).reshape((len(patchesList_modal_1), 1) + patch_shape * 2 + 1)
 
         return patches_modal_1, patches_modal_2, patches_modal_g

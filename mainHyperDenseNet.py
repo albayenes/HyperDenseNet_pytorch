@@ -90,7 +90,7 @@ def runTraining(opts):
     optimizer = torch.optim.Adam(hdNet.parameters(), lr=0.0001, betas=(0.9, 0.999))
     
     print(" ~~~~~~~~~~~ Starting the training ~~~~~~~~~~")
-    epoch = 100
+    epoch = 200
     for e in range(epoch):
         hdNet.train()
         
@@ -124,8 +124,8 @@ def runTraining(opts):
 
 
 
-        if (100+e_i%20)==0:
-             lr = lr/2
+        if ((e+1)%100)==0:
+             lr = lr/10
              print(' Learning rate decreased to : {}'.format(lr))
              for param_group in optimizer.param_groups:
                 param_group['lr'] = lr

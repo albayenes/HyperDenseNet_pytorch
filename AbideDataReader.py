@@ -43,6 +43,7 @@ class AbideDataset(Dataset):
         imageData_2 = nib.load(self.img_modality_2).get_data()
         imageData_g = nib.load(self.img_segmentation).get_data()
 
+        print(np.unique(imageData_g))
         # num_classes = len(np.unique(imageData_g))
         # print(num_classes)
         # new_imageData_g = np.zeros(imageData_g.shape)

@@ -99,9 +99,9 @@ def runTraining(opts):
         for i, (patches_modal_1, patches_modal_2, patches_modal_g) in enumerate(train_loader):
             optimizer.zero_grad()
 
-            patches_modal_1 = patches_modal_1.to(DEVICE).float()
-            patches_modal_2 = patches_modal_2.to(DEVICE).float()
-            patches_modal_g = patches_modal_g.to(DEVICE).long()
+            patches_modal_1 = patches_modal_1.to(DEVICE).float()[0, ...]
+            patches_modal_2 = patches_modal_2.to(DEVICE).float()[0, ...]
+            patches_modal_g = patches_modal_g.to(DEVICE).long()[0, ...]
 
             segmentation_prediction = hdNet(patches_modal_1, patches_modal_2)
             

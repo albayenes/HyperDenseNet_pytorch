@@ -32,11 +32,11 @@ class AbideDataset(Dataset):
     def __getitem__(self, item):
         if self.training:
             self.img_modality_1 = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'T1.nii.gz')
-            self.img_modality_2 = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'T2.nii.gz')
+            self.img_modality_2 = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'T1.nii.gz')
             self.img_segmentation = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'aseg.nii.gz')
         else:
             self.img_modality_1 = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'T1.nii.gz')
-            self.img_modality_2 = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'T2.nii.gz')
+            self.img_modality_2 = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'T1.nii.gz')
             self.img_segmentation = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'aseg.nii.gz')
 
         imageData_1 = nib.load(self.img_modality_1).get_data()

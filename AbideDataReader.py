@@ -40,7 +40,9 @@ class AbideDataset(Dataset):
             self.img_segmentation = os.path.join(self.img_folder, self.training_subj_list[item], 'mri', 'aseg.nii.gz')
 
         imageData_1 = nib.load(self.img_modality_1).get_data()
+        imageData_1 = imageData_1 / imageData_1.max() + 0.1
         imageData_2 = nib.load(self.img_modality_2).get_data()
+        imageData_2 = imageData_2 / imageData_2.max() + 0.1
         imageData_g = nib.load(self.img_segmentation).get_data()
 
         label_set = [0, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24, 26,

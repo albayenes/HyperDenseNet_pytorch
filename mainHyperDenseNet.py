@@ -54,11 +54,11 @@ def runTraining(opts):
 
     training_img_data_folder = '/media/albayenes/vpa-med4.data/Users/albayenes/sub_brain_segmentation/dataset/abide/HyperDensetNetDataset/Training'
     train_set = AbideDataset(training_img_data_folder)
-    train_loader = torch.utils.data.DataLoader(train_set, batch_size=1, num_workers=16, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(train_set, batch_size=1, num_workers=4, shuffle=True)
 
     validation_img_data_folder = '/media/albayenes/vpa-med4.data/Users/albayenes/sub_brain_segmentation/dataset/abide/HyperDensetNetDataset/Training'
     valid_set = AbideDataset(validation_img_data_folder, training=False)
-    valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=1, num_workers=16, shuffle=True)
+    valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=1, num_workers=4, shuffle=True)
 
 
     num_classes = 46

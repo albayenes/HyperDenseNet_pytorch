@@ -50,35 +50,7 @@ def runTraining(opts):
     print('-' * 41)
     print('' * 40)
 
-    samplesPerEpoch = opts.numSamplesEpoch
-    batch_size = opts.batchSize
 
-    lr = opts.l_rate
-    epoch = opts.numEpochs
-    
-    root_dir = opts.root_dir
-    model_name = opts.modelName
-
-    if not (len(opts.modality_dirs)== opts.numModal): raise AssertionError
-
-    moda_1 = root_dir
-    moda_2 = root_dir
-
-    if (opts.numModal == 3):
-        moda_3 = root_dir + 'Training/' + opts.modality_dirs[2]
-
-    moda_g = root_dir
-
-    print(' --- Getting image names.....')
-    print(' - Training Set: -')
-    if os.path.exists(moda_1):
-        imageNames_train = [f for f in os.listdir(moda_1) if isfile(join(moda_1, f, 'mri', 'T1.nii.gz'))][0:1]
-        imageNames_train.sort()
-        print(' ------- Images found ------')
-        for i in range(len(imageNames_train)):
-            print(' - {}'.format(imageNames_train[i])) 
-    else:
-        raise Exception(' - {} does not exist'.format(moda_1))
 
     img_data_folder = '/media/albayenes/vpa-med4.data/Users/albayenes/sub_brain_segmentation/dataset/abide/HyperDensetNetDataset'
     train_set = AbideDataset(img_data_folder)
@@ -119,8 +91,7 @@ def runTraining(opts):
     optimizer = torch.optim.Adam(hdNet.parameters(), lr=lr, betas=(0.9, 0.999))
     
     print(" ~~~~~~~~~~~ Starting the training ~~~~~~~~~~")
-    numBatches = int(samplesPerEpoch/batch_size)
-    dscAll = []
+    epoch = 100
     for e_i in range(epoch):
         hdNet.train()
         
@@ -153,12 +124,6 @@ def runTraining(opts):
 
             print(loss)
 
-        if not os.path.exists(model_name):
-            os.makedirs(model_name)
-
-        np.save(os.path.join(model_name, model_name + '_loss.npy'), dscAll)
-
-        print(' Epoch: {}, loss: {}'.format(e_i,np.mean(lossEpoch)))
 
 
         if (100+e_i%20)==0:

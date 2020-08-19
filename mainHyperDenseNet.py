@@ -91,7 +91,7 @@ def runTraining(opts):
     
     print(" ~~~~~~~~~~~ Starting the training ~~~~~~~~~~")
     epoch = 100
-    for e_i in range(epoch):
+    for e in range(epoch):
         hdNet.train()
         
         # lossEpoch = []

@@ -61,7 +61,7 @@ def runTraining(opts):
     valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=1, num_workers=0, shuffle=True)
 
 
-    num_classes = 30
+    num_classes = 3000
     # print("~~~~~~~~~~~ Creating the model ~~~~~~~~~~")
     # num_classes = opts.numClasses
     #

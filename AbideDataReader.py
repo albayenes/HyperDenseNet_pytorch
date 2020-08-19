@@ -4,10 +4,7 @@ import nibabel as nib
 import numpy as np
 import os
 import random
-import torchvision.transforms as T
-import torchvision.transforms.functional as TF
-from skimage import io, transform, filters
-from scipy.misc import imresize
+
 
 class AbideDataset(Dataset):
     def __init__(self, img_folder, num_of_patches=128, training=True):

@@ -120,7 +120,7 @@ def runTraining(opts):
             # lossEpoch.append(CE_loss_batch.cpu().data.numpy())
 
 
-            print(CE_loss_batch)
+            print(e, i, CE_loss_batch)
 
 
 

@@ -73,12 +73,12 @@ class HyperDenseNet_2Mod(nn.Module):
         self.fully_3 = nn.Conv3d(200, 150, kernel_size=1)
         self.final = nn.Conv3d(150, nClasses, kernel_size=1)
 
-    def forward(self, input):
+    def forward(self, input1, input2):
         # ----- First layer ------ #
         # get 2 of the channels as 5D tensors
         #pdb.set_trace()
-        y1t = self.conv1_Top(input[:, 0:1, :, :, :])
-        y1b = self.conv1_Bottom(input[:, 1:2, :, :, :])
+        y1t = self.conv1_Top(input1)
+        y1b = self.conv1_Bottom(input2)
 
         # ----- Second layer ------ #
         # concatenate

@@ -109,10 +109,10 @@ def runTraining(opts):
 
             # To adapt CE to 3D
             # LOGITS:
-            # segmentation_prediction = segmentation_prediction.permute(0,2,3,4,1).contiguous()
-            # segmentation_prediction = segmentation_prediction.view(segmentation_prediction.numel() // num_classes, num_classes)
+            segmentation_prediction = segmentation_prediction.permute(0,2,3,4,1).contiguous()
+            segmentation_prediction = segmentation_prediction.view(segmentation_prediction.numel() // num_classes, num_classes)
             
-            CE_loss_batch = CE_loss(predClass_y, patches_modal_g)
+            CE_loss_batch = CE_loss(segmentation_prediction, patches_modal_g)
             
             loss = CE_loss_batch
             loss.backward()

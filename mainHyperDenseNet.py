@@ -79,7 +79,7 @@ def runTraining(opts):
         pass'''
 
     softMax = nn.Softmax(dim=1)
-    CE_loss = nn.CrossEntropyLoss().to(DEVICE)
+    CE_loss = nn.MultiLabelSoftMarginLoss().to(DEVICE)
     
 
     hdNet.to(DEVICE)

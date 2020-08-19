@@ -7,7 +7,7 @@ import random
 
 
 class AbideDataset(Dataset):
-    def __init__(self, img_folder, num_of_patches=64, training=True):
+    def __init__(self, img_folder, num_of_patches=32, training=True):
         self.training = training
         self.num_of_patches = num_of_patches
         self.img_folder = img_folder

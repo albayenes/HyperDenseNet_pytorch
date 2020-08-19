@@ -87,7 +87,7 @@ def runTraining(opts):
     CE_loss.to(DEVICE)
 
     # To-DO: Check that optimizer is the same (and same values) as the Theano implementation
-    optimizer = torch.optim.Adam(hdNet.parameters(), lr=0.001, betas=(0.9, 0.999))
+    optimizer = torch.optim.Adam(hdNet.parameters(), lr=0.0001, betas=(0.9, 0.999))
     
     print(" ~~~~~~~~~~~ Starting the training ~~~~~~~~~~")
     epoch = 100

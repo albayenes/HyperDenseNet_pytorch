@@ -54,6 +54,9 @@ class AbideDataset(Dataset):
         half_patch_shape = (13, 13, 13)
         patch_shape = (27, 27, 27)
 
+        half_label_patch_shape = (4, 4, 4)
+        label_patch_shape = (9, 9, 9)
+
         patchesList_modal_1 = np.zeros((self.num_of_patches, 1) + (patch_shape))
         patchesList_modal_2 = np.zeros((self.num_of_patches, 1) + (patch_shape))
         patchesList_modal_g = np.zeros((self.num_of_patches, 1) + (patch_shape))
@@ -70,9 +73,9 @@ class AbideDataset(Dataset):
                                        y - half_patch_shape[1]:y + half_patch_shape[1] + 1,
                                        z - half_patch_shape[2]:z + half_patch_shape[2] + 1]
 
-            patchesList_modal_g[p, ...] = imageData_g[x - half_patch_shape[0]:x + half_patch_shape[0] + 1,
-                                       y - half_patch_shape[1]:y + half_patch_shape[1] + 1,
-                                       z - half_patch_shape[2]:z + half_patch_shape[2] + 1]
+            patchesList_modal_g[p, ...] = imageData_g[x - half_label_patch_shape[0]:x + half_label_patch_shape[0] + 1,
+                                       y - half_label_patch_shape[1]:y + half_label_patch_shape[1] + 1,
+                                       z - half_label_patch_shape[2]:z + half_label_patch_shape[2] + 1]
 
 
         return patchesList_modal_1, patchesList_modal_2, patchesList_modal_g

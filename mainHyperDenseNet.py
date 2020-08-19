@@ -79,7 +79,7 @@ def runTraining(opts):
         pass'''
 
     softMax = nn.Softmax(dim=1)
-    CE_loss = nn.MultiLabelSoftMarginLoss().to(DEVICE)
+    CE_loss = nn.CrossEntropyLoss().to(DEVICE)
     
 
     hdNet.to(DEVICE)
@@ -94,7 +94,7 @@ def runTraining(opts):
     for e_i in range(epoch):
         hdNet.train()
         
-        lossEpoch = []
+        # lossEpoch = []
 
         for i, (patches_modal_1, patches_modal_2, patches_modal_g) in enumerate(train_loader):
             optimizer.zero_grad()
@@ -113,15 +113,14 @@ def runTraining(opts):
             # segmentation_prediction = segmentation_prediction.view(segmentation_prediction.numel() // num_classes, num_classes)
             
             CE_loss_batch = CE_loss(segmentation_prediction, patches_modal_g)
-            
-            loss = CE_loss_batch
-            loss.backward()
+
+            CE_loss_batch.backward()
             
             optimizer.step()
-            lossEpoch.append(CE_loss_batch.cpu().data.numpy())
+            # lossEpoch.append(CE_loss_batch.cpu().data.numpy())
 
 
-            print(loss)
+            print(CE_loss_batch)
 
 
 

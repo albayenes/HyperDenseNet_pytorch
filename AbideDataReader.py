@@ -43,13 +43,13 @@ class AbideDataset(Dataset):
         imageData_2 = nib.load(self.img_modality_2).get_data()
         imageData_g = nib.load(self.img_segmentation).get_data()
 
-        num_classes = len(np.unique(imageData_g))
-        print(num_classes)
-        new_imageData_g = np.zeros(imageData_g.shape)
-        for i, l in enumerate(np.unique(imageData_g)):
-            new_imageData_g[imageData_g == l] = i
-
-        imageData_g = new_imageData_g
+        # num_classes = len(np.unique(imageData_g))
+        # print(num_classes)
+        # new_imageData_g = np.zeros(imageData_g.shape)
+        # for i, l in enumerate(np.unique(imageData_g)):
+        #     new_imageData_g[imageData_g == l] = i
+        #
+        # imageData_g = new_imageData_g
 
         patch_shape = (27, 27, 27)
 

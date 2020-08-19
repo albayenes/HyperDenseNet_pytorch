@@ -51,20 +51,20 @@ class AbideDataset(Dataset):
         #
         # imageData_g = new_imageData_g
 
-        patch_shape = (27, 27, 27)
+        patch_shape = (13, 13, 13)
 
 
         patchesList_modal_1 = []
         patchesList_modal_2 = []
         patchesList_modal_g = []
         for p in range(self.num_of_patches):
-            x = np.random.randint(patch_shape[0] + imageData_1.shape[0] - patch_shape[0])
-            y = np.random.randint(patch_shape[1] + imageData_1.shape[1] - patch_shape[1])
-            z = np.random.randint(patch_shape[2] + imageData_1.shape[2] - patch_shape[2])
+            x = np.random.randint(patch_shape[0], imageData_1.shape[0] - patch_shape[0] - 1)
+            y = np.random.randint(patch_shape[1], imageData_1.shape[1] - patch_shape[1] - 1)
+            z = np.random.randint(patch_shape[2], imageData_1.shape[2] - patch_shape[2] - 1)
 
-            patchesList_modal_1.append(imageData_1[x:x + patch_shape[0],
-                               y:y + patch_shape[1],
-                               z:z + patch_shape[2]])
+            patchesList_modal_1.append(imageData_1[x - patch_shape[0]:x + patch_shape[0] + 1,
+                                                   y - patch_shape[1]:y + patch_shape[1] + 1,
+                                                   z - patch_shape[2]:z + patch_shape[2] + 1])
 
             patchesList_modal_2.append(imageData_2[x:x + patch_shape[0],
                                        y:y + patch_shape[1],

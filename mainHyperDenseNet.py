@@ -66,11 +66,9 @@ def runTraining(opts):
     #
     # Define HyperDenseNet
     # To-Do. Get as input the config settings to create different networks
-    if (opts.numModal == 2):
-        hdNet = HyperDenseNet_2Mod(num_classes)
-    if (opts.numModal == 3):
-        hdNet = HyperDenseNet(num_classes)
-    #
+
+    hdNet = HyperDenseNet_2Mod(num_classes)
+
 
     '''try:
         hdNet = torch.load(os.path.join(model_name, "Best_" + model_name + ".pkl"))
@@ -88,7 +86,7 @@ def runTraining(opts):
     CE_loss.to(DEVICE)
 
     # To-DO: Check that optimizer is the same (and same values) as the Theano implementation
-    optimizer = torch.optim.Adam(hdNet.parameters(), lr=lr, betas=(0.9, 0.999))
+    optimizer = torch.optim.Adam(hdNet.parameters(), lr=0.001, betas=(0.9, 0.999))
     
     print(" ~~~~~~~~~~~ Starting the training ~~~~~~~~~~")
     epoch = 100
